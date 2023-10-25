@@ -1,0 +1,56 @@
+extends lecturer_Layout
+
+block content
+  body
+    div(class="att-marking-container")
+      h1 Please Scan your Tag
+      div(class="message", id="message")
+
+      input(type="text", autofocus, id="textField" class="idScanField")
+
+      script.
+        var timeoutId;
+        var messageElement = document.getElementById('message');
+        var courseID = "#{courseID}";
+        var weekNumber = "#{week}";
+
+        document.getElementById('textField').addEventListener('input', function() {
+          clearTimeout(timeoutId); // Clear any previous timeout
+          var textFieldValue = this.value;
+
+          // Set a new timeout to delay the request
+          timeoutId = setTimeout(function() {
+            fetch(`/attendance-marking/capture`, { 
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ textFieldValue,courseID,weekNumber })
+            })
+            .then(response => {
+              if (response.ok) {
+                showMessage('Attendance marked successfully.');
+                document.getElementById('textField').value = ''; // Clear the text field
+                setTimeout(hideMessage, 3000); // Hide the message after 3 seconds
+              } else {
+                showMessage('Error marking attendance. Please try again.');
+                setTimeout(hideMessage, 3000); // Hide the message after 3 seconds
+              }
+            })
+            .catch(error => {
+              showMessage('Error marking attendance. Please try again.');
+              setTimeout(hideMessage, 3000); // Hide the message after 3 seconds
+              console.error('Error:', error);
+            });
+          }, 500); // Adjust the delay duration as needed
+        });
+        document.getElementById('textField').value = '';
+
+        function showMessage(msg) {
+          messageElement.textContent = msg;
+          messageElement.style.display = 'block';
+        }
+
+        function hideMessage() {
+          messageElement.style.display = 'none';
+        }

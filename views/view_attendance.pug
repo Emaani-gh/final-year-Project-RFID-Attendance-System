@@ -1,0 +1,42 @@
+extends lecturer_Layout
+
+block content
+    h3 View Attendance:
+
+    form#searchForm
+      label(for="studentSearch") Search by Student ID:
+      input(type="text", id="studentSearch", name="studentSearch")
+      button(type="button", id="searchButton") Search
+
+    table#attendanceTable
+      thead
+        tr
+          th Student ID
+          th Date
+          th Status
+      tbody
+        each record in attendanceRecords
+          tr
+            td #{record.student_id}
+            td #{record.date.toLocaleString("en-US", { timeZone: "UTC" })}
+            td(class=record.attendance_status.toLowerCase()) #{record.attendance_status}
+
+    script.
+      const searchButton = document.getElementById('searchButton');
+      const studentSearch = document.getElementById('studentSearch');
+      const attendanceTable = document.getElementById('attendanceTable');
+
+      searchButton.addEventListener('click', () => {
+        const searchTerm = studentSearch.value.toLowerCase();
+
+        for (const row of attendanceTable.rows) {
+          const studentID = row.cells[0].innerText.toLowerCase();
+
+          if (studentID.includes(searchTerm)) {
+            row.style.display = 'table-row';
+          } else {
+            row.style.display = 'none';
+          }
+        }
+      });
+

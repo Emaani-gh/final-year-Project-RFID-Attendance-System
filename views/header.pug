@@ -1,0 +1,70 @@
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Student Page - RFID Web App
+    style.
+      /* Add your CSS styles here */ 
+      a{
+        text-decoration:none;
+        color:#fff
+      }
+      header {
+        background-color: #3498db;
+        padding: 20px;
+      }
+      logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      nav{
+        display:flex;
+        justify-content:space-between;
+      }
+
+      .nav-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-menu li {
+        display: inline-block;
+        margin-right: 10px;
+      }
+  body
+    header
+      nav
+        .logo
+          a(href="/students/dashboard ") RFID Web App
+        ul.nav-menu
+          li
+            a(href="/students/courses") Courses
+          li
+            a(href="/students/profile") My Profile
+          li
+            a(href="/logout") Logout
+
+  script.
+    document.querySelector('a[href="/logout"]').addEventListener('click', (event) => {
+      event.preventDefault();
+      // Send a request to the server to log out the user
+      fetch('/students/logout', { method: 'POST' })
+        .then((response) => {
+          // Check if the response is successful
+          if (response.ok) {
+            // Clear the JWT cookie
+            // Redirect the user to the login page or any other desired page
+            window.location.href = '/students/login';
+          } else {
+            console.log('Error logging out');
+          }
+        })
+        .catch((error) => {
+          console.log('Error logging out:', error);
+        });
+    });
+

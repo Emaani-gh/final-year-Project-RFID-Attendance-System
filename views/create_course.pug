@@ -1,0 +1,52 @@
+extends lecturer_Layout
+
+block content
+
+  .createCourse
+    form(id="createCourseForm", method="post")
+        h1 Create New Course
+        label(for="courseName") Course Name:
+        input(type="text", id="courseName", name="courseName", required)
+        //- br
+
+        label(for="courseCode") Course Code:
+        input(type="text", id="courseCode", name="courseCode", required)
+        //- br
+
+        button(type="button", id="createCourseButton") Create Course
+
+    script.
+        document.addEventListener("DOMContentLoaded", () => {
+            const createCourseButton = document.getElementById("createCourseButton");
+            const createCourseForm = document.getElementById("createCourseForm");
+
+            createCourseButton.addEventListener("click", async () => {
+                try {
+                    const courseData = {
+                        courseName: createCourseForm.courseName.value,
+                        courseCode: createCourseForm.courseCode.value
+                    };
+
+                    const response = await fetch("/lecturer/create_course", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(courseData)
+                    });
+
+                    const responseData = await response.json();
+                    
+                    alert(responseData.message); // Display the message from the response
+                    createCourseForm.courseName.value = "";
+                    createCourseForm.courseCode.value = "";
+                } catch (error) {
+                    console.error("Error creating course:", error);
+                    alert("An error occurred while creating the course");
+                }
+            });
+        });
+
+
+
+    

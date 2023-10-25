@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    title Lecturer Dashboard
+    link(rel="stylesheet", href="/main.css")
+
+  body
+    .wrapper
+      header
+        nav
+          ul
+            li
+              a(href="/lecturer/dashboard") Home
+            li
+              button#logout-button(type="button") Logout
+
+      main
+        .main-container
+            block content // This is where your dynamic content will be injected
+
+      footer
+        p © 2023 Final Year Project
+
+    script.
+      const logoutButton = document.getElementById("logout-button");
+
+      logoutButton.addEventListener("click", () => {
+        fetch("/lecturer/logout", {
+          method: "POST",
+        })
+        .then(() => {
+          window.location.href = "/lecturer/login"; // Redirect after logout
+        })
+        .catch((error) => {
+          console.error("Logout error:", error);
+        });
+      });

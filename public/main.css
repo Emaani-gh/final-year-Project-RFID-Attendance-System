@@ -1,0 +1,368 @@
+ /* main.css */
+ 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,100&display=swap');
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #C5D8F5;
+  --background-color: #f5f5f5;
+  --text-color: #333333;
+  --link-color: #3498db;
+  --button-color: #3498db;
+  --button-text: #ffffff;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: rgb(231, 231, 231);
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-container{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: var(--button-text);
+  padding: 1rem;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--button-text);
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+footer {
+  background-color: var(--primary-color);
+  color: var(--button-text);
+  padding: 1rem;
+  text-align: center;
+  margin-top: auto;
+}
+
+/*=============================== Main Content Styles */
+h1, h2, h3, p, label {
+  color: var(--text-color);
+}
+
+input[type="number"],input[type="text"],input[type="password"],
+select {
+  width: 90%;
+  padding: 0.5rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 1rem;
+  max-width: 400px;
+}
+
+button {
+  background-color: var(--button-color);
+  color: var(--button-text);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+}
+
+/* -----------------------------Attendance Marking Page======================= */
+
+.att-marking-container{
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center ;
+  align-items: center;
+}
+
+.message {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+
+}
+.idScanField{
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: none;
+  outline: none;
+  text-align: center;
+}
+/* --------------------------------ATTENDANCE VIEW----------------------- */
+.search-form {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.search-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.search-form input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.search-form button {
+  background-color: var(--button-color);
+  color: var(--button-text);
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#attendanceTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#attendanceTable th, #attendanceTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#attendanceTable th {
+  background-color: #f2f2f2;
+}
+
+.Present {
+  color: green;
+  font-weight: bold;
+}
+
+.Absent {
+  color: red;
+  font-weight: bold;
+}
+/* ---------------------------login-------------------------- */
+
+.loginForm label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.loginForm input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.loginForm .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #297db8;
+}
+
+.loginForm button:active {
+  background-color: #26679e;
+}
+
+/* =========================student dashboard---------------------------- */
+.top-div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;/* padding :.5rem 1rem ; */
+}
+.present-div{
+  flex: 1;  
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  padding: 1rem;
+  height: 128px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+.absent-div{
+  flex: 1;  
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  padding: 1rem;
+  height: 128px;
+  background-color: #ffffff;
+  margin: 0 1rem;
+  border-radius: 5px;
+}
+.seach-div{
+  flex: 1;  
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  padding: 1rem;
+  height: 128px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+.std-info {
+  flex: 1;  
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  padding: 1rem;
+  height: 128px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-right: 1rem;
+}
+
+.courses-sec{
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  padding: .7rem;
+}
+
+#attendanceTable tbody tr:nth-child(even) {
+  background-color: var(--primary-color);
+  color: var(--button-text);
+}
+
+/* ----------------------------lecturer dashboard-------------------- */
+.grid{
+  margin-bottom: 2rem;
+  width: 100%;
+  display: grid;
+  gap: .7rem;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+}
+
+.card{
+  background-color: white;
+  padding: .5rem;
+  border-radius: 5px;
+}
+
+
+.middle-sec{
+
+  /* background-color: white; */
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  
+}
+
+/* ====================CREATE COURSE======================== */
+/* Apply colors from the palette */
+.createCourse {
+  background-color: var(--background-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#createCourseForm {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: var(--primary-color);
+}
+
+label {
+  color: var(--text-color);
+  display: block;
+  margin-bottom: 6px;
+}
+
+button {
+  background-color: var(--button-color);
+  color: var(--button-text);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #2975a9; /* Slightly darker shade for hover effect */
+}
+
+/* Adjust styles for links (assuming links are in a different part of your site) */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #1e6fa0; /* Slightly darker shade for link hover effect */
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

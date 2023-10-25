@@ -1,0 +1,144 @@
+extends student_Layout
+
+block content
+  .grid 
+    .card
+      p Student ID: #{student.student_id}
+      p Email: #{student.email}  
+
+    .card
+      h4 PRESENT
+      p(id="presentCount") 0
+
+    .card
+      h4 ABSENT
+      p(id="absentCount") 0
+
+    .card
+      select(id="searchCourse")
+        option(value="") -- Select All --
+        each course in courses
+          option(value=course.course_code) #{course.course_name} - #{course.course_code}
+      button(id="searchButton") Search
+
+  .middle-sec
+    .card
+      h3 Your Enrolled Courses:
+      ul
+        each course in courses
+          li
+            | #{course.course_name} - #{course.course_code}
+
+    .card
+      h3 Register for Courses:
+      form(id="registerForm", method="post")
+        label Select Courses:
+        each course in availableCourses
+          div.checkbox-container
+            label
+              input(type="checkbox", name="courseCodes", value=course.course_code, disabled=course.isRegistered, checked=course.isRegistered)
+              | #{course.course_name} - #{course.course_code}
+              if course.isRegistered
+                | (Registered)
+        button(type="submit") Register
+
+  h3 Attendance Records:
+  table#attendanceTable
+    thead
+      tr
+        th course
+        th Week
+        th Date
+        th Status
+    
+    tbody
+      each record in attendanceRecords
+        tr
+          td.course-cell= record.course_id
+          td.course-cell= record.week_number
+          td= record.date.toLocaleString("en-US", { timeZone: "UTC" })
+          td.status-cell(class=record.attendance_status.toLowerCase())= record.attendance_status
+
+  script.
+    const registerForm = document.getElementById("registerForm");
+
+        registerForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          try {
+            const formData = new FormData(registerForm);
+            const courseCodes = Array.from(formData.getAll("courseCodes"));
+
+            const response = await fetch("/students/register-courses", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ courseCodes }),
+            });
+
+            if (response.ok) {
+              alert("Courses registered successfully!");
+              location.reload(); 
+            } else {
+              alert("error registering course!");
+            }
+          } catch (error) {
+            console.error("Error registering courses:", error);
+          }
+        });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const attendanceTableRows = document.querySelectorAll("#attendanceTable tbody tr");
+        const presentCountElement = document.getElementById("presentCount");
+        const absentCountElement = document.getElementById("absentCount");
+
+        function updateCounts() {
+          let presentCount = 0;
+          let absentCount = 0;
+
+          attendanceTableRows.forEach(function (row) {
+            if (row.style.display !== "none") { // Check if the row is visible after filtering
+              const statusCell = row.querySelector(".status-cell").textContent;
+
+              if (statusCell === "Present") {
+                presentCount++;
+              } else if (statusCell === "Absent") {
+                absentCount++;
+              }
+            }
+          });
+
+          presentCountElement.textContent = presentCount;
+          absentCountElement.textContent = absentCount;
+        }
+
+        // Initial count
+        updateCounts();
+
+        const searchButton = document.getElementById("searchButton");
+        const searchCourse = document.getElementById("searchCourse");
+
+        searchButton.addEventListener("click", function () {
+          const selectedCourse = searchCourse.value;
+
+          attendanceTableRows.forEach(function (row) {
+            const courseCell = row.querySelector(".course-cell").textContent;
+
+            if (selectedCourse === "" || selectedCourse === courseCell) {
+              row.style.display = "table-row";
+            } else {
+              row.style.display = "none";
+            }
+          });
+
+          // Update counts after applying the filter
+          updateCounts(); // This will now consider the filtered rows
+        });
+      });
+
+
+
+    
+
+    

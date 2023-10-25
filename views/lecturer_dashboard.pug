@@ -1,0 +1,67 @@
+extends lecturer_Layout
+
+block content
+  .grid 
+    .card
+      p Lecturer ID: #{lecturer.lecturer_id}
+      p Email: #{lecturer.email}
+
+    //- .card
+    //-   h4 PRESENT
+    //-   p(id="presentCount") 0
+
+    //- .card
+    //-   h4 ABSENT
+    //-   p(id="absentCount") 0
+
+    .card
+      h3 Take Attendance:
+      form(action="/lecturer/mark_attendance", method="post")
+        label(for="courseID") Select Course:
+        select(id="courseID", name="courseID", required)
+          each course in courses
+            option(value=course.course_code) #{course.course_name} - #{course.course_code}
+        br
+        label(for="weekNumber") Select Week:
+        input(type="number", id="weekNumber", name="weekNumber", min="1", max="12", required)
+        br
+        button(type="submit") Take Attendance
+
+  //- --------------------------------------------------
+
+  .middle-sec
+    .card
+      h3 Assigned Courses:
+      ul
+        each course in courses
+          li
+            | #{course.course_name} - #{course.course_code}
+      form(action="/lecturer/create_course", method="get")
+        button(type="submit") Create New Course
+
+    //- h3 Set Course and Week for Attendance:
+    //- form(action="/lecturer/mark_attendance", method="post")
+    //-   label(for="courseID") Select Course:
+    //-   select(id="courseID", name="courseID", required)
+    //-     each course in courses
+    //-       option(value=course.course_code) #{course.course_name} - #{course.course_code}
+    //-   br
+    //-   label(for="weekNumber") Select Week:
+    //-   input(type="number", id="weekNumber", name="weekNumber", min="1", max="12", required)
+    //-   br
+    //-   button(type="submit") Take Attendance
+
+    .card
+      h3 View Attendance:
+      form(action="/lecturer/view_attendance", method="post")
+        label(for="viewCourseCode") Select Course:
+        select(id="viewCourseCode", name="courseCode", required)
+          each course in courses
+            option(value=course.course_code) #{course.course_name} - #{course.course_code}
+        br
+        label(for="viewWeekNumber") Select Week:
+        select(id="viewWeekNumber", name="weekNumber", required)
+          each week in attendanceWeeks
+            option(value=week) Week #{week}
+        br
+        button(type="submit") View Attendance

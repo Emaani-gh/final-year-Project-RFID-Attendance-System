@@ -1,0 +1,55 @@
+extends lecturer_Layout 
+block content
+    div.container
+      h1 lecturer Sign In
+      form(action="/students/login", method="POST" onsubmit="handleFormSubmit(event)" class="loginForm")
+        label(for="username") Username
+        input(type="text", id="username", name="username", placeholder="Enter your username", required)
+
+        label(for="password") Password
+        input(type="password", id="password", name="pass", placeholder="Enter your password", required)
+        p.error-message#error
+
+        button(type="submit") Sign In
+
+    script.
+      async function handleFormSubmit(event) {
+        event.preventDefault();
+        const form = event.target;
+
+        const error = document.querySelector('#error');
+        error.textContent='';
+
+        if (!username || !password) {
+          return;
+        }
+            
+        const credentials = {
+          username : form.username.value,
+          password : form.pass.value
+        }
+
+      try {
+        const response = await fetch('/lecturer/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(credentials)
+        });
+
+        if (response.ok) {
+          const { token } = await response.json();
+
+          // Redirect to the dashboard page
+          window.location.href = '/lecturer/dashboard';
+        } else {
+          const errorData = await response.json();
+          document.querySelector('#error').textContent = errorData.message;
+        }
+
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+
+      }

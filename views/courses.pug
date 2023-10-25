@@ -1,0 +1,44 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Registered Courses
+    style.
+      /* Add your CSS styles here */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 0;
+      }
+      .course {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+      .course h3 {
+        margin-top: 0;
+      }
+      .course p {
+        margin: 0;
+      }
+
+  body
+    include header 
+    div.container
+      h1 Registered Courses
+      each course in courses
+        .course
+          h3 #{course.name}
+          p Course Code: #{course.courseCode}
+        //-   p Credit: #{course.credit}
+          p Instructor: #{course.instructor}

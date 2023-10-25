@@ -1,0 +1,94 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Course Registration
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #{backgroundColor};
+        color: #{textColor};
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 0;
+        color: #{primaryColor};
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      input[type="checkbox"] {
+        margin-bottom: 10px;
+      }
+      button[type="submit"] {
+        padding: 10px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+  body
+    include header
+    div.container
+      h1 Course Registration
+      form(action="/students/register-courses", method="POST" onsubmit="handleFormSubmit(event)")
+        each course in courses
+          label
+            input(type="checkbox", name="courseCodes", value=course.courseCode)
+            | #{course.name} (#{course.courseCode})
+        button(type="submit") Register Courses
+    script.
+      async function handleFormSubmit(event) {
+        event.preventDefault();
+        const form = event.target;
+
+        const courseCodes = Array.from(form.elements.courseCodes)
+          .filter((input) => input.checked)
+          .map((input) => input.getAttribute('value'));
+
+        try {
+          const response = await fetch('/students/register-courses', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ courseCodes })
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            alert(data.message);
+
+            // Set checkboxes as permanently checked
+            const checkboxes = Array.from(form.elements.courseCodes);
+            checkboxes.forEach((checkbox) => {
+              if (courseCodes.includes(checkbox.value)) {
+                checkbox.checked = true;
+                checkbox.disabled = true;
+              }
+            });
+          } else {
+            alert('Error: ' + data.message);
+
+            // Reset checkboxes
+            Array.from(form.elements.courseCodes).forEach((input) => {
+              input.checked = false;
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
